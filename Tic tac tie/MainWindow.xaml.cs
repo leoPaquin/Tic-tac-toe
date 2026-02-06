@@ -71,40 +71,41 @@ namespace Tic_tac_tie
         }
         private void VerifierGagnant()
         {
-            List<List<Button>> CombiGagnantes = new List<List<Button>>();
-            CombiGagnantes.Add(new List<Button> { B1, B2, B3 });
-            CombiGagnantes.Add(new List<Button> { B4, B5, B6 });
-            CombiGagnantes.Add(new List<Button> { B7, B8, B9 });
-            CombiGagnantes.Add(new List<Button> { B1, B4, B7 });
-            CombiGagnantes.Add(new List<Button> { B2, B5, B8 });
-            CombiGagnantes.Add(new List<Button> { B3, B6, B9 });
-            CombiGagnantes.Add(new List<Button> { B1, B5, B9 });
-            CombiGagnantes.Add(new List<Button> { B3, B5, B7 });
-
-            foreach (List<Button> combination in CombiGagnantes)
+            List<List<Button>> CombiGagnantes = new()
             {
-                foreach (Button button in combination) 
-                { 
-                    if(ListJoueurA.Contains(button))
-                    {
-                        MessageBox.Show("Le joueur A a gagné !");
-                        ResetPartie();
+                new() { B1, B2, B3 },
+                new() { B4, B5, B6 },
+                new() { B7, B8, B9 },
+                new() { B1, B4, B7 },
+                new() { B2, B5, B8 },
+                new() { B3, B6, B9 },
+                new() { B1, B5, B9 },
+                new() { B3, B5, B7 }
+            };
 
-                    }
-                    else if (ListJoueurB.Contains(button))
-                    {
-                        MessageBox.Show("Le joueur B a gagné !");
-                        ResetPartie();
-
-                    }
+            foreach (var lescombinaisons in CombiGagnantes)
+            {
+                if (lescombinaisons.All(b => ListJoueurA.Contains(b)))
+                {
+                    MessageBox.Show("Le joueur A a gagné !");
+                    ResetPartie();
+                    return;
                 }
 
-                if (ListJoueurA.Count + ListJoueurB.Count == 9)
+                if (lescombinaisons.All(b => ListJoueurB.Contains(b)))
                 {
-                    MessageBox.Show("Match nul !");
+                    MessageBox.Show("Le joueur B a gagné !");
                     ResetPartie();
+                    return;
                 }
             }
+
+            if (ListJoueurA.Count + ListJoueurB.Count == 9)
+            {
+                MessageBox.Show("Match nul !");
+                ResetPartie();
+            }
         }
+
     }
 }
